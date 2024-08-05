@@ -33,13 +33,18 @@ let items = [
   },
 ];
 
-app.get("/api/items", (req, res) => {
+app.get("/api/items", (_, res) => {
   res.json(items);
 });
 
 app.post("/api/items", (req, res) => {
-  const newItem = req.body;
-  items.push(newItem);
+  let lastId = items[items.length - 1].id;
+  const newItem = {
+    ...req.body,
+    id: ++lastId,
+  };
+
+  items.unshift(newItem);
   res.status(201).json(newItem);
 });
 
