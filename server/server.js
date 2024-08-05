@@ -6,7 +6,7 @@ const cors = require("cors");
 app.use(bodyParser.json());
 app.use(cors());
 
-let items = [
+let products = [
   {
     id: 1,
     title: "Gray sneakers with white stripes",
@@ -33,18 +33,18 @@ let items = [
   },
 ];
 
-app.get("/api/items", (_, res) => {
-  res.json(items);
+app.get("/api/products", (_, res) => {
+  res.json(products);
 });
 
-app.post("/api/items", (req, res) => {
-  let lastId = items[items.length - 1].id;
+app.post("/api/products", (req, res) => {
+  let lastId = products[products.length - 1].id;
   const newItem = {
     ...req.body,
     id: ++lastId,
   };
 
-  items.unshift(newItem);
+  products.unshift(newItem);
   res.status(201).json(newItem);
 });
 
