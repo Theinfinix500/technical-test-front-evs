@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  max-width: 64.5rem;
+  margin: 1rem auto;
+
+  &__list {
+    flex: 1 0 auto;
+  }
+
+  &__form {
+  }
+}
