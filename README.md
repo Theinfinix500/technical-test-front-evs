@@ -1,192 +1,73 @@
-### Test Technique pour Développeurs Frontend (Angular/React/React Native/Ionic)
 
-#### Objectif
-Créer une application front-end en Angular, React, React Native ou Ionic qui interagit avec un backend Node.js mock. L'objectif est d'évaluer la compétence du candidat en termes de modularisation des composants, de structuration de l'application, et de déploiement avec Docker.
+# Technical Test Front EVS
 
-#### Durée estimée
-2 heures
+This project is a frontend application for the technical test at EVS.
 
-### Instructions
+## Prerequisites
 
-#### Partie 1: Backend Mock en Node.js
-1. **Créer un serveur mock en Node.js avec Express.**
-   - Le serveur doit avoir deux endpoints :
-     - `GET /api/items`: Retourne une liste d'items.
-     - `POST /api/items`: Ajoute un item à la liste.
-   - Les données peuvent être stockées en mémoire (pas besoin de base de données).
+Before you begin, ensure you have the following installed on your machine:
 
-#### Partie 2: Application Frontend
-1. **Choisir une des technologies suivantes : Angular, React, React Native ou Ionic.**
-2. **Créer une application front-end qui consomme le backend mock.**
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
 
-#### Fonctionnalités de l'application front-end
-1. **Affichage de la liste des items :**
-   - Une page ou une vue qui affiche la liste des items récupérés du serveur via l'endpoint `GET /api/items`.
-2. **Ajout d'un nouvel item :**
-   - Un formulaire ou une interface qui permet d'ajouter un nouvel item via l'endpoint `POST /api/items`.
-3. **Modularisation :**
-   - Utiliser une architecture modulaire avec des composants bien définis.
-   - Chaque composant doit avoir sa propre logique et style (si applicable).
-4. **Gestion de l'état (State Management) :**
-   - Utiliser une solution de gestion de l'état appropriée (par exemple, NgRx pour Angular, Redux ou Context API pour React).
+## Getting Started
 
-#### Partie 3: Conteneurisation avec Docker
-1. **Créer un Dockerfile pour le backend Node.js.**
-2. **Créer un Dockerfile pour l'application front-end.**
-3. **Créer un fichier `docker-compose.yml` pour orchestrer les services :**
-   - Un service pour le backend.
-   - Un service pour le front-end.
-4. **Démarrer les services avec Docker Compose et vérifier que l'application fonctionne correctement.**
+Follow these steps to get the application up and running using Docker Compose.
 
-### Détails Techniques
+### Clone the Repository
 
-#### Backend (Node.js + Express)
-```javascript
-// server.js
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const cors = require('cors');
+First, clone the repository to your local machine:
 
-app.use(bodyParser.json());
-app.use(cors());
-
-let items = [];
-
-app.get('/api/items', (req, res) => {
-  res.json(items);
-});
-
-app.post('/api/items', (req, res) => {
-  const newItem = req.body;
-  items.push(newItem);
-  res.status(201).json(newItem);
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+```bash
+git clone https://github.com/Theinfinix500/technical-test-front-evs.git
+cd technical-test-front-evs
+git checkout feat/technical-test
 ```
 
-#### Dockerfile pour le backend
-```dockerfile
-# Dockerfile
-FROM node:14
+### Build and Run the Application
 
-WORKDIR /app
+Use Docker Compose to build and run the application:
 
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 3000
-
-CMD ["node", "server.js"]
+```bash
+docker compose up
 ```
 
-#### Dockerfile pour le frontend
-Angular:
-```dockerfile
-# Dockerfile
-FROM node:14 as build
+This command will build the Docker image and start the application in a container.
 
-WORKDIR /app
+### Access the Application
 
-COPY package*.json ./
-RUN npm install
+Once the containers are up and running, you can access the application in your web browser at:
 
-COPY . .
-RUN npm run build
-
-FROM nginx:alpine
-COPY --from=build /app/dist/<nom-du-projet> /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+```
+http://localhost
 ```
 
-React:
-```dockerfile
-# Dockerfile
-FROM node:14 as build
+## Stopping the Application
 
-WORKDIR /app
+To stop the application and remove the containers, use the following command:
 
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-RUN npm run build
-
-FROM nginx:alpine
-COPY --from=build /app/build /usr/share/nginx/html
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+```bash
+docker compose down
 ```
 
-React Native:
-```dockerfile
-# Dockerfile
-FROM node:14
+## Troubleshooting
 
-WORKDIR /app
+If you encounter any issues while running the application, here are a few common troubleshooting steps:
 
-COPY package*.json ./
-RUN npm install
+- Ensure Docker and Docker Compose are properly installed and running.
+- Check for any error messages in the terminal output and resolve any issues as indicated.
+- Ensure no other application is using the same port (3000) on your machine.
 
-COPY . .
+## Contributing
 
-EXPOSE 8081
+If you would like to contribute to this project, please follow these steps:
 
-CMD ["npx", "react-native", "start"]
-```
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/YourFeature`).
+3. Commit your changes (`git commit -m 'Add some feature'`).
+4. Push to the branch (`git push origin feature/YourFeature`).
+5. Open a pull request.
 
-Ionic:
-```dockerfile
-# Dockerfile
-FROM node:14
+## License
 
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
-COPY . .
-
-EXPOSE 8100
-
-CMD ["npx", "ionic", "serve", "--host", "0.0.0.0", "--port", "8100"]
-```
-
-#### docker-compose.yml
-```yaml
-version: '3'
-
-services:
-  backend:
-    build: ./backend
-    ports:
-      - "3000:3000"
-  frontend:
-    build: ./frontend
-    ports:
-      - "80:80"
-```
-
-### Livrables attendus
-1. **Code source de l'application front-end et back-end.**
-2. **Fichiers Docker et docker-compose fonctionnels.**
-3. **Instructions pour lancer l'application avec Docker.**
-
-### Critères d'évaluation
-1. **Fonctionnalité :** L'application fonctionne comme attendu et interagit correctement avec le backend.
-2. **Modularisation :** Les composants sont bien structurés et modulaires.
-3. **Code propre :** Le code est bien organisé, lisible et commenté si nécessaire.
-4. **Conteneurisation :** L'application est correctement conteneurisée et peut être lancée avec Docker Compose.
-
-Bonne chance !
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
