@@ -1,0 +1,22 @@
+<div class="container">
+  <form [formGroup]="productForm" (submit)="onSubmit()">
+    <label for="title">Title</label>
+    <input type="text" id="title" name="title" formControlName="title" />
+
+    <label for="brand">Brand</label>
+    <input type="text" id="brand" name="brand" formControlName="brand" />
+
+    <label for="price">Price</label>
+    <input type="number" id="price" name="price" formControlName="price" />
+
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      name="description"
+      style="height: 100px"
+      formControlName="description"
+    ></textarea>
+
+    <input type="submit" value="Save" />
+  </form>
+</div>
