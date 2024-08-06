@@ -1,0 +1,26 @@
+<div class="product">
+  <div class="product__img">
+    <img
+      src="assets/images/sneakers.jpg"
+      alt="Card cover image"
+      class="h-full w-full object-cover"
+      data-nsfw-filter-status="sfw"
+      style="visibility: visible"
+    />
+  </div>
+  <div class="product__details">
+    <div class="product__title">{{ product.title }}</div>
+    <div class="product__brand">{{ product.brand }}</div>
+    <div class="product__price">{{ product.price | currency }}</div>
+    <div class="product__description">
+      {{ product.description }}
+    </div>
+    <!-- <div class="mt-6 flex items-center text-md">
+      <span class="text-secondary mr-3 whitespace-nowrap">Select a size:</span
+      ><span class="mr-2">39</span><span class="mr-2">40</span
+      ><span class="mr-2">41</span
+      ><span class="mr-2 font-bold text-primary">42</span
+      ><span class="mr-2">43</span>
+    </div> -->
+  </div>
+</div>
